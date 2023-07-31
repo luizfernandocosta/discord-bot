@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+discord:
+  token: ${DISCORD_TOKEN}
+
+openai:
+  model: ${OPENAI_MODEL}
+  api-url: ${OPENAI_API_URL}
+  api-key: ${OPENAI_API_KEY}

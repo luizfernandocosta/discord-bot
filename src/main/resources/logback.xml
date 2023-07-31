@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_FILE" value="LogFile" />
+
+    <appender name="JsonConsole" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+            <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+            </jsonFormatter>
+            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss</timestampFormat>
+            <appendLineSeparator>true</appendLineSeparator>
+            <printHeader>false</printHeader>
+        </layout>
+    </appender>
+
+    <appender name="JsonRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/logs/application.log</file>
+
+        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+            <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                <prettyPrint>true</prettyPrint>
+            </jsonFormatter>
+            <printHeader>false</printHeader>
+            <appendLineSeparator>true</appendLineSeparator>
+            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss:SSS</timestampFormat>
+        </layout>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>3GB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+
+    <root level="INFO">
+        <appender-ref ref="JsonConsole" />
+        <appender-ref ref="JsonRollingFile" />
+    </root>
+
+</configuration>
