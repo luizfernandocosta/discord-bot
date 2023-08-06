@@ -32,41 +32,41 @@ public class StopSound implements CommandManagerService {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
 
-        try {
-
-            Member member = event.getMember();
-            Member self = event.getGuild().getSelfMember();
-
-            GuildVoiceState memberVoiceState = member.getVoiceState();
-            GuildVoiceState selfVoiceState = self.getVoiceState();
-
-            CheckIfUserIsInChannel channel = new CheckIfUserIsInChannel(event, memberVoiceState, selfVoiceState);
-            channel.checkUserAndReply();
-
-            event.reply("Parando playlist atual").queue();
-
-            GuildMusicManager guildMusicManager = PlayerManager.get().getGuildMusicManager(event.getGuild());
-            TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
-            trackScheduler.getQueue().clear();
-            trackScheduler.getPlayer().stopTrack();
-
-            Log.logInfo(
-                    event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId(),
-                    this.getName(),
-                    event.getGuild().getName(),
-                    event.getGuild().getId()
-            );
-
-        } catch (Exception e) {
-
-            Log.logError(
-                    this.getName(),
-                    event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId()
-            );
-
-        }
+//        try {
+//
+//            Member member = event.getMember();
+//            Member self = event.getGuild().getSelfMember();
+//
+//            GuildVoiceState memberVoiceState = member.getVoiceState();
+//            GuildVoiceState selfVoiceState = self.getVoiceState();
+//
+//            CheckIfUserIsInChannel channel = new CheckIfUserIsInChannel(event, memberVoiceState, selfVoiceState);
+//            channel.checkUserAndReply();
+//
+//            event.reply("Parando playlist atual").queue();
+//
+//            GuildMusicManager guildMusicManager = PlayerManager.get().getMusicManager(event.getGuild());
+//            TrackScheduler trackScheduler = guildMusicManager.getTrackScheduler();
+//            trackScheduler.getQueue().clear();
+//            trackScheduler.getPlayer().stopTrack();
+//
+//            Log.logInfo(
+//                    event.getMember().getUser().getName(),
+//                    event.getMember().getUser().getId(),
+//                    this.getName(),
+//                    event.getGuild().getName(),
+//                    event.getGuild().getId()
+//            );
+//
+//        } catch (Exception e) {
+//
+//            Log.logError(
+//                    this.getName(),
+//                    event.getMember().getUser().getName(),
+//                    event.getMember().getUser().getId()
+//            );
+//
+//        }
     }
 }
 

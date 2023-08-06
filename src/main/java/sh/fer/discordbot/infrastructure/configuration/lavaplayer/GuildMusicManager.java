@@ -9,34 +9,24 @@ import java.util.Queue;
 
 public class GuildMusicManager {
 
-    private TrackScheduler trackScheduler;
-    private AudioForwarder audioForwarder;
+    public final AudioPlayer audioPlayer;
 
-    private final Queue<AudioTrack> musicQueue = new LinkedList<>();
+    public final TrackScheduler trackScheduler;
+    private AudioPlayerSendHandler sendHandler;
+
 
 
     public GuildMusicManager(AudioPlayerManager manager) {
-        AudioPlayer player = manager.createPlayer();
-        trackScheduler = new TrackScheduler(player);
-        player.addListener(trackScheduler);
-        audioForwarder = new AudioForwarder(player);
+        this.audioPlayer = manager.createPlayer();
+        this.trackScheduler = new TrackScheduler(this.audioPlayer);
+        this.audioPlayer.addListener(this.trackScheduler);
+        this.sendHandler = new AudioPlayerSendHandler(this.audioPlayer);
     }
 
-    public TrackScheduler getTrackScheduler() {
-        return trackScheduler;
+    public AudioPlayerSendHandler getSendHandler() {
+        return this.sendHandler;
     }
 
-    public AudioForwarder getAudioForwarder() {
-        return audioForwarder;
-    }
-
-    public void addToQueue(AudioTrack track) {
-        musicQueue.add(track);
-    }
-
-    public AudioTrack getNextTrack() {
-        return musicQueue.poll();
-    }
 
 }
 

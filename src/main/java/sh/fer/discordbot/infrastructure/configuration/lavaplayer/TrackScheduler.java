@@ -10,11 +10,35 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
 
-    private final AudioPlayer player;
-    private BlockingQueue<AudioTrack> queue = new LinkedBlockingQueue<>();
+    public final AudioPlayer audioPlayer;
+    public BlockingQueue<AudioTrack> queue;
 
     public TrackScheduler(AudioPlayer player) {
-        this.player = player;
+
+        this.audioPlayer = player;
+        this.queue = new LinkedBlockingQueue<>();
+    }
+
+    public void queue(AudioTrack track) {
+        if (!this.audioPlayer.startTrack(track,true)) {
+            this.queue.offer(track);
+        }
+    }
+
+    public BlockingQueue<AudioTrack> getQueue() {
+        return this.queue;
+    }
+
+    public void nextTrack() {
+        this.audioPlayer.startTrack(this.queue.poll(), false);
+    }
+
+    @Override
+    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+
+        if (endReason.mayStartNext) {
+            nextTrack();
+        }
     }
 
     @Override
@@ -27,27 +51,4 @@ public class TrackScheduler extends AudioEventAdapter {
         player.startTrack(player.getPlayingTrack(),true);
     }
 
-    @Override
-    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        player.startTrack(queue.poll(), false);
-    }
-
-    public void queue(AudioTrack track) {
-        if (!player.startTrack(track,false)) {
-            queue.offer(track);
-        }
-    }
-
-    public void nextTrack() {
-        player.startTrack(queue.poll(), false);
-    }
-
-
-    public AudioPlayer getPlayer() {
-        return player;
-    }
-
-    public BlockingQueue<AudioTrack> getQueue() {
-        return queue;
-    }
 }

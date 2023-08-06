@@ -1,5 +1,6 @@
 package sh.fer.discordbot.application.discord.commands;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -43,9 +44,15 @@ public class SkipSound implements CommandManagerService {
             CheckIfUserIsInChannel channel = new CheckIfUserIsInChannel(event, memberVoiceState, selfVoiceState);
             channel.checkUserAndReply();
 
-            GuildMusicManager guildMusicManager = PlayerManager.get().getGuildMusicManager(event.getGuild());
-            guildMusicManager.getTrackScheduler().nextTrack();
+            final GuildMusicManager musicManager = PlayerManager.get().getMusicManager(event.getGuild());
+            final AudioPlayer audioPlayer = musicManager.audioPlayer;
 
+            if(audioPlayer.getPlayingTrack() == null){
+                event.reply("Não há nenhuma música tocando no momento!").queue();
+                return;
+            }
+
+            musicManager.trackScheduler.nextTrack();
             event.reply("Pulando música...").queue();
 
             Log.logInfo(
