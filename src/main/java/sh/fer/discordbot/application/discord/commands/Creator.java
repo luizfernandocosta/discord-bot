@@ -36,23 +36,21 @@ public class Creator implements CommandManagerService {
 
             Member member = event.getGuild().getMemberById(135857221547327489L);
 
-            User user = event.getUser();
-
 //            user.openPrivateChannel().flatMap(privateChannel -> privateChannel.sendMessage("E aí, cuzão")).queue();
 //
-//            event.reply(String.format("Criado pelo único %s <a:lustra:763092953576374283> <t:1618953630>" , member.getUser().getName())).queue();
-
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setAuthor("1kilo-bot", null, "https://i.imgur.com/4E3pm4U.gif");
-            embedBuilder.setThumbnail("https://i.imgur.com/4E3pm4U.gif");
-            embedBuilder.setTitle("<:sap:835729425365598258> ### AGORA TOCANDO <:sap:835729425365598258>");
-            embedBuilder.addField("ARTISTA", "audioInfo.author", false);
-            embedBuilder.addField("MÚSICA", "audioInfo.title", false);
-            embedBuilder.addField("DURAÇÃO", "String.format(%s:%s, minutes, seconds)", false);
-            embedBuilder.addField("LINK", "audioInfo.uri", false);
-            embedBuilder.setColor(Color.PINK);
-
-            event.replyEmbeds(embedBuilder.build()).queue();
+            event.reply(String.format("Criado pelo único %s <a:lustra:763092953576374283> <t:1618953630>" , member.getUser().getName())).queue();
+//
+//            EmbedBuilder embedBuilder = new EmbedBuilder();
+////            embedBuilder.setAuthor("1kilo-bot", null, "https://i.imgur.com/4E3pm4U.gif");
+////            embedBuilder.setThumbnail("https://i.imgur.com/4E3pm4U.gif");
+//            embedBuilder.setTitle("<:sap:835729425365598258> ### AGORA TOCANDO ### <:sap:835729425365598258>");
+//            embedBuilder.addField("ARTISTA", "audioInfo.author", false);
+//            embedBuilder.addField("MÚSICA", "audioInfo.title", false);
+//            embedBuilder.addField("DURAÇÃO", "String.format(%s:%s, minutes, seconds)", false);
+//            embedBuilder.addField("LINK", "audioInfo.uri", false);
+//            embedBuilder.setColor(Color.PINK);
+//
+//            event.replyEmbeds(embedBuilder.build()).queue();
 
             Log.logInfo(
                     event.getMember().getUser().getName(),
@@ -63,6 +61,8 @@ public class Creator implements CommandManagerService {
             );
 
         } catch (Exception e) {
+
+            System.out.println(e);
 
             Log.logError(
                     this.getName(),
