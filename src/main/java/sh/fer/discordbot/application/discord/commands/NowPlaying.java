@@ -1,5 +1,6 @@
 package sh.fer.discordbot.application.discord.commands;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -13,6 +14,8 @@ import sh.fer.discordbot.infrastructure.configuration.lavaplayer.PlayerManager;
 import sh.fer.discordbot.infrastructure.configuration.logging.Log;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 
 public class NowPlaying implements CommandManagerService {
@@ -35,54 +38,63 @@ public class NowPlaying implements CommandManagerService {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
 
-//        try {
-//
-//            Member member = event.getMember();
-//            Member self = event.getGuild().getSelfMember();
-//
-//            GuildVoiceState memberVoiceState = member.getVoiceState();
-//            GuildVoiceState selfVoiceState = self.getVoiceState();
-//
-//            CheckIfUserIsInChannel channel = new CheckIfUserIsInChannel(event, memberVoiceState, selfVoiceState);
-//            channel.checkUserAndReply();
-//
-//            GuildMusicManager guildMusicManager = PlayerManager.get().getMusicManager(event.getGuild());
-//
-//            AudioTrackInfo info = guildMusicManager.getTrackScheduler().getPlayer().getPlayingTrack().getInfo();
-//
-//            long durationInMillis = info.length;
-//
-//            long minutes = (durationInMillis / 1000) / 60;
-//            long seconds = (durationInMillis / 1000) % 60;
-//
-//            EmbedBuilder embedBuilder = new EmbedBuilder();
-//
-////            embedBuilder.setImage("https://cdn3.emoji.gg/emojis/2316-admin-badge-pink.png");
-//            embedBuilder.setTitle(":musical_note:  AGORA TOCANDO :musical_note:");
-//            embedBuilder.setDescription("**Nome:** " + info.title);
-//            embedBuilder.addField("Autor", info.author, false);
-//            embedBuilder.addField("Duração",String.format("%s:%s", minutes, seconds), false);
-//            embedBuilder.addField("Link da música", info.uri, false);
-//            embedBuilder.setColor(Color.PINK);
-//
-//            event.replyEmbeds(embedBuilder.build()).queue();
-//
-//            Log.logInfo(
-//                    event.getMember().getUser().getName(),
-//                    event.getMember().getUser().getId(),
-//                    this.getName(),
-//                    event.getGuild().getName(),
-//                    event.getGuild().getId()
-//            );
-//
-//        } catch (Exception e) {
-//
-//            Log.logError(
-//                    this.getName(),
-//                    event.getMember().getUser().getName(),
-//                    event.getMember().getUser().getId()
-//            );
-//
-//        }
+        try {
+
+            Member member = event.getMember();
+            Member self = event.getGuild().getSelfMember();
+
+            GuildVoiceState memberVoiceState = member.getVoiceState();
+            GuildVoiceState selfVoiceState = self.getVoiceState();
+
+            CheckIfUserIsInChannel channel = new CheckIfUserIsInChannel(event, memberVoiceState, selfVoiceState);
+            channel.checkUserAndReply();
+
+            GuildMusicManager guildMusicManager = PlayerManager.get().getMusicManager(event.getGuild());
+            AudioPlayer audioPlayer = guildMusicManager.audioPlayer;
+
+            if (audioPlayer.getPlayingTrack() == null) {
+                event.reply("Não há nenhuma música tocando no momento!").queue();
+                return;
+            }
+
+            final AudioTrackInfo audioInfo = audioPlayer.getPlayingTrack().getInfo();
+            long durationInMillis = audioInfo.length;
+            TemporalAccessor temporalAccessor = LocalDateTime.now();
+
+            long minutes = (durationInMillis / 1000) / 60;
+            long seconds = (durationInMillis / 1000) % 60;
+
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setAuthor("1kilo-bot", null, "https://cdn.discordapp.com/attachments/706938155437391883/1136685176219508891/Sem_Titulo-59.jpg");
+            embedBuilder.setThumbnail("https://cdn3.emoji.gg/emojis/7670-musicbeat.gif");
+            embedBuilder.setTitle("<:sap:835729425365598258> AGORA TOCANDO <:sap:835729425365598258>");
+            embedBuilder.addField("<:music_microphone:1136859876090462228> ARTISTA <:music_microphone:1136859876090462228>", audioInfo.author, false);
+            embedBuilder.addField("<a:music_note:1136850717693456445>  MÚSICA <a:music_note:1136850717693456445>", audioInfo.title, false);
+            embedBuilder.addField("<a:music_time:1136856943361802330> DURAÇÃO <a:music_time:1136856943361802330>", String.format("%s:%s", minutes, seconds), false);
+            embedBuilder.addField("LINK", audioInfo.uri, false);
+            embedBuilder.setColor(Color.PINK);
+            embedBuilder.setTimestamp(temporalAccessor);
+            embedBuilder.setFooter("ARE YOU READY?", "https://cdn.discordapp.com/attachments/706938155437391883/1136685176219508891/Sem_Titulo-59.jpg");
+
+            event.replyEmbeds(embedBuilder.build()).queue();
+
+
+            Log.logInfo(
+                    event.getMember().getUser().getName(),
+                    event.getMember().getUser().getId(),
+                    this.getName(),
+                    event.getGuild().getName(),
+                    event.getGuild().getId()
+            );
+
+        } catch (Exception e) {
+
+            Log.logError(
+                    this.getName(),
+                    event.getMember().getUser().getName(),
+                    event.getMember().getUser().getId()
+            );
+
+        }
     }
 }

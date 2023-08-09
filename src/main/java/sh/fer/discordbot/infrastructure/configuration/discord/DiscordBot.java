@@ -52,6 +52,7 @@ public class DiscordBot {
             commandManager.add(new SkipSound());
             commandManager.add(new StopSound());
             commandManager.add(new QueueSound());
+            commandManager.add(new PauseSound());
             commandManager.add(new SearchChatGPT(openAiClient, apiKey, model));
             this.jda.addEventListener(commandManager);
 

@@ -104,14 +104,13 @@ public class PlayerManager {
 
                 if (!tracks.isEmpty()) {
                     musicManager.trackScheduler.queue(tracks.get(0));
-//                    textChannel.sendMessage("Tocando música " + tracks.get(0).getInfo().title).queue();
                 }
 
             }
 
             @Override
             public void noMatches() {
-//                textChannel.sendMessage("Não foi encontrada nenhuma música com esse nome!").queue();
+
             }
 
             @Override
