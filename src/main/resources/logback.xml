@@ -37,20 +37,19 @@
 <!--        </triggeringPolicy>-->
 <!--    </appender>-->
 
-<!--    <appender name="Logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
-<!--        <destination>192.168.15.130:32405</destination> &lt;!&ndash; Endereço e porta do Logstash &ndash;&gt;-->
-<!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
-<!--            <includeContext>true</includeContext>-->
-<!--            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss</timestampFormat>-->
-<!--            &lt;!&ndash; Outros campos adicionais que você deseja incluir no JSON &ndash;&gt;-->
-<!--        </encoder>-->
-<!--    </appender>-->
+    <appender name="Logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.15.130:32405</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeContext>true</includeContext>
+            <timestampFormat>yyyy-MM-dd' 'HH:mm:ss</timestampFormat>
+        </encoder>
+    </appender>
 
 
     <root level="INFO">
         <appender-ref ref="JsonConsole" />
 <!--        <appender-ref ref="JsonRollingFile" />-->
-        <appender-ref ref="Logstash" /> <!-- Adicionando o novo appender para o Logstash -->
+        <appender-ref ref="Logstash" />
     </root>
 
 </configuration>
