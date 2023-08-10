@@ -82,7 +82,8 @@ public class SearchChatGPT implements CommandManagerService {
             Log.logError(
                     this.getName(),
                     event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId()
+                    event.getMember().getUser().getId(),
+                    e
             );
 
         }

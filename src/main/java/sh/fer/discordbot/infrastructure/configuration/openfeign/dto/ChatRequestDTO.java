@@ -13,9 +13,8 @@ import java.util.List;
 public class ChatRequestDTO {
 
     private String model;
+
     private List<MessageDTO> messages;
-//    private int n;
-//    private double temperature;
 
     private int max_tokens;
 

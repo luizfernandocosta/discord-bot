@@ -16,6 +16,7 @@ import sh.fer.discordbot.infrastructure.configuration.logging.Log;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
+import java.util.Collections;
 import java.util.List;
 
 public class NowPlaying implements CommandManagerService {
@@ -32,7 +33,7 @@ public class NowPlaying implements CommandManagerService {
 
     @Override
     public List<OptionData> getOptions() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -92,7 +93,8 @@ public class NowPlaying implements CommandManagerService {
             Log.logError(
                     this.getName(),
                     event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId()
+                    event.getMember().getUser().getId(),
+                    e
             );
 
         }

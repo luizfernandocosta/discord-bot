@@ -6,11 +6,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import sh.fer.discordbot.application.discord.CommandManagerService;
 import sh.fer.discordbot.infrastructure.configuration.discord.CheckIfUserIsInChannel;
-import sh.fer.discordbot.infrastructure.configuration.lavaplayer.GuildMusicManager;
 import sh.fer.discordbot.infrastructure.configuration.lavaplayer.PlayerManager;
-import sh.fer.discordbot.infrastructure.configuration.lavaplayer.TrackScheduler;
 import sh.fer.discordbot.infrastructure.configuration.logging.Log;
 
+import java.util.Collections;
 import java.util.List;
 
 public class StopSound implements CommandManagerService {
@@ -26,7 +25,7 @@ public class StopSound implements CommandManagerService {
 
     @Override
     public List<OptionData> getOptions() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -65,7 +64,8 @@ public class StopSound implements CommandManagerService {
             Log.logError(
                     this.getName(),
                     event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId()
+                    event.getMember().getUser().getId(),
+                    e
             );
 
         }

@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import sh.fer.discordbot.application.discord.CommandManager;
 import sh.fer.discordbot.application.discord.Listeners;
 import sh.fer.discordbot.application.discord.commands.*;
@@ -21,9 +20,6 @@ public class DiscordBot {
 
     @Value("${discord.token}")
     private String discordToken;
-
-    private JDA jda;
-
     @Autowired
     private OpenAiClient openAiClient;
 
@@ -36,14 +32,14 @@ public class DiscordBot {
     public void startBot() {
 
         try {
-            this.jda = JDABuilder
+            JDA jda = JDABuilder
                                  .createDefault(discordToken)
                                  .enableIntents(GatewayIntent.GUILD_MEMBERS)
                                  .setStatus(OnlineStatus.DO_NOT_DISTURB)
                                  .setActivity(Activity.playing("BOT DA 1KILO TM"))
                                  .build();
 
-            this.jda.addEventListener(new Listeners());
+            jda.addEventListener(new Listeners());
 
             CommandManager commandManager = new CommandManager();
             commandManager.add(new Creator());
@@ -54,7 +50,7 @@ public class DiscordBot {
             commandManager.add(new QueueSound());
             commandManager.add(new PauseSound());
             commandManager.add(new SearchChatGPT(openAiClient, apiKey, model));
-            this.jda.addEventListener(commandManager);
+            jda.addEventListener(commandManager);
 
         } catch (Exception e) {
             log.error("An error has occurred: {}", (Object) e.getStackTrace());

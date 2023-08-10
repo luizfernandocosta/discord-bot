@@ -10,21 +10,18 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PlayerManager {
 
-    private static PlayerManager INSTANCE;
+    private static PlayerManager instance;
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
 
@@ -39,15 +36,15 @@ public class PlayerManager {
     }
 
     public static PlayerManager get() {
-        if (INSTANCE == null) {
-            INSTANCE = new PlayerManager();
+        if (instance == null) {
+            instance = new PlayerManager();
         }
 
-        return INSTANCE;
+        return instance;
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
-        return musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
+        return musicManagers.computeIfAbsent(guild.getIdLong(), guildId -> {
             final GuildMusicManager musicManager = new GuildMusicManager(this.audioPlayerManager);
             guild.getAudioManager().setSendingHandler(musicManager.getSendHandler());
             return musicManager;
@@ -62,10 +59,11 @@ public class PlayerManager {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
 
-                musicManager.trackScheduler.queue(audioTrack);
+                musicManager.trackScheduler.getQueue(audioTrack);
 
                 try {
-                    if (musicManager.trackScheduler.getQueue().size() == 0) {
+
+                    if (!musicManager.trackScheduler.queue.isEmpty() && musicManager.trackScheduler.getQueue().size() == 0) {
 
                         final AudioTrackInfo audioInfo = audioTrack.getInfo();
                         long durationInMillis = audioInfo.length;
@@ -103,19 +101,19 @@ public class PlayerManager {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
 
                 if (!tracks.isEmpty()) {
-                    musicManager.trackScheduler.queue(tracks.get(0));
+                    musicManager.trackScheduler.getQueue(tracks.get(0));
                 }
 
             }
 
             @Override
             public void noMatches() {
-
+                // TODO: implement when music has no match
             }
 
             @Override
             public void loadFailed(FriendlyException e) {
-
+                // TODO: implement when music has failed loading
             }
         });
     }

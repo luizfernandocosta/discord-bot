@@ -2,10 +2,6 @@ package sh.fer.discordbot.infrastructure.configuration.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class GuildMusicManager {
 

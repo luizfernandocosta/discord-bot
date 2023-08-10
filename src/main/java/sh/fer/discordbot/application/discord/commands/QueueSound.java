@@ -1,19 +1,10 @@
 package sh.fer.discordbot.application.discord.commands;
 
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import sh.fer.discordbot.application.discord.CommandManagerService;
-import sh.fer.discordbot.infrastructure.configuration.discord.CheckIfUserIsInChannel;
-import sh.fer.discordbot.infrastructure.configuration.lavaplayer.GuildMusicManager;
-import sh.fer.discordbot.infrastructure.configuration.lavaplayer.PlayerManager;
-import sh.fer.discordbot.infrastructure.configuration.logging.Log;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QueueSound implements CommandManagerService {
@@ -28,9 +19,7 @@ public class QueueSound implements CommandManagerService {
     }
 
     @Override
-    public List<OptionData> getOptions() {
-        return null;
-    }
+    public List<OptionData> getOptions() { return Collections.emptyList(); }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

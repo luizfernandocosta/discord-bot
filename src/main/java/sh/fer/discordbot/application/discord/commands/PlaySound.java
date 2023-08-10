@@ -1,11 +1,7 @@
 package sh.fer.discordbot.application.discord.commands;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -14,7 +10,6 @@ import sh.fer.discordbot.infrastructure.configuration.discord.CheckIfUserIsInCha
 import sh.fer.discordbot.infrastructure.configuration.lavaplayer.PlayerManager;
 import sh.fer.discordbot.infrastructure.configuration.logging.Log;
 
-import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -73,13 +68,12 @@ public class PlaySound implements CommandManagerService {
             );
 
         } catch (Exception e) {
-
-            e.printStackTrace();
-
+            
             Log.logError(
                     this.getName(),
                     event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId()
+                    event.getMember().getUser().getId(),
+                    e
             );
 
         }

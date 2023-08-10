@@ -12,8 +12,8 @@ public class Log {
                 userName, userId, commandName, serverName, serverId);
     }
 
-    public static void logError(String userName, String userId, String commandName) {
-        logger.error("An error has occurred trying to execute command {}, User: {} ID: {}", commandName, userName, userId);
+    public static void logError(String userName, String userId, String commandName, Exception e) {
+        logger.error("An error has occurred trying to execute command {}, User: {} ID: {} Exception: {}", commandName, userName, userId, e);
     }
 
 

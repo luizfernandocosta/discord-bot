@@ -27,7 +27,6 @@ public class CheckIfUserIsInChannel {
         } else {
             if (this.getSelfVoiceState().getChannel() != this.getMemberVoiceState().getChannel()) {
                 this.getEvent().reply("Você precisa estar no mesmo canal de voz que eu!").queue();
-                return;
             }
         }
     }
@@ -46,7 +45,6 @@ public class CheckIfUserIsInChannel {
 
         if(this.getSelfVoiceState().getChannel() != this.getMemberVoiceState().getChannel()) {
             this.getEvent().reply("Você não está no mesmo canal que eu!").queue();
-            return;
         }
     }
 }

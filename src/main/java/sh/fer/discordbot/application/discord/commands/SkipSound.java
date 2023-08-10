@@ -11,6 +11,7 @@ import sh.fer.discordbot.infrastructure.configuration.lavaplayer.GuildMusicManag
 import sh.fer.discordbot.infrastructure.configuration.lavaplayer.PlayerManager;
 import sh.fer.discordbot.infrastructure.configuration.logging.Log;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SkipSound implements CommandManagerService {
@@ -27,7 +28,7 @@ public class SkipSound implements CommandManagerService {
 
     @Override
     public List<OptionData> getOptions() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -68,7 +69,8 @@ public class SkipSound implements CommandManagerService {
             Log.logError(
                     this.getName(),
                     event.getMember().getUser().getName(),
-                    event.getMember().getUser().getId()
+                    event.getMember().getUser().getId(),
+                    e
             );
 
         }
